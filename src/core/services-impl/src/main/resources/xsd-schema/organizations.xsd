@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://wse.vlaanderen.be/BeschikbareEntitlementArtefactService/common/DataTypes/v100" xmlns:apa="http://wse.vlaanderen.be/BeschikbareEntitlementArtefactService/common/DataTypes/v100" xmlns:fault="http://wse.vlaanderen.be/generic/Fault/common/DataTypes/v100" targetNamespace="http://wse.vlaanderen.be/BeschikbareEntitlementArtefactService/common/DataTypes/v100" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xsd:import namespace="http://wse.vlaanderen.be/generic/Fault/common/DataTypes/v100" schemaLocation="Fault.xsd"/>
+    <xsd:simpleType name="ArtefactNameType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="256"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="ArtefactValueType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="256"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="FilterValueType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="256"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="QuerySingleFilterBeschikbareEntitlementRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="apa:WhereQueryList"/>
+                <xsd:element ref="apa:SelectAttributeList"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="QuerySingleFilterBeschikbareEntitlementStringResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="apa:QueryResult" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="QuerySingleFilterBeschikbareEntitlementFault" type="fault:FaultType"/>
+    <xsd:element name="WhereQueryList" type="apa:WhereQueryListType"/>
+    <xsd:complexType name="WhereQueryListType">
+        <xsd:sequence>
+            <xsd:element ref="apa:WhereQuery" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>The list of WhereQueries. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="QueryResult" type="apa:QueryResultType"/>
+    <xsd:complexType name="QueryResultType">
+        <xsd:sequence>
+            <xsd:element ref="apa:SingleWhereFilterQuery"/>
+            <xsd:element ref="apa:QueryResultSet">
+                <xsd:annotation>
+                    <xsd:documentation>The resultset for the Query</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="QueryResultSet" type="apa:QueryResultSetType"/>
+    <xsd:complexType name="QueryResultSetType">
+        <xsd:sequence>
+            <xsd:element ref="apa:ResultRow" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="ResultRow" type="apa:ResultRowType"/>
+    <xsd:complexType name="ResultRowType">
+        <xsd:sequence>
+            <xsd:element ref="apa:Artefact" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="Artefact" type="apa:ResultColumnType"/>
+    <xsd:complexType name="ResultColumnType">
+        <xsd:sequence>
+            <xsd:element name="ArtefactValue" type="apa:ArtefactValueType"/>
+        </xsd:sequence>
+        <xsd:attribute name="ArtefactName" type="apa:ArtefactNameType" use="required"/>
+    </xsd:complexType>
+    <xsd:element name="SelectAttributeList" type="apa:SelectAttributeListType"/>
+    <xsd:complexType name="SelectAttributeListType">
+        <xsd:sequence>
+            <xsd:element name="ArtefactName" type="apa:ArtefactNameType" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>The Attribute(s) that the requester would like to see in the resultSet (the select fields of the query)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="SingleWhereFilterQuery" type="apa:WhereFilterType"/>
+    <xsd:element name="WhereQuery" type="apa:WhereQueryType"/>
+    <xsd:complexType name="WhereQueryType">
+        <xsd:sequence>
+            <xsd:element ref="apa:SingleWhereFilterQuery">
+                <xsd:annotation>
+                    <xsd:documentation>Each Query is considered to have only one condition Filter.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="WhereFilterType">
+        <xsd:sequence>
+            <xsd:element name="ArtefactName" type="apa:ArtefactNameType">
+                <xsd:annotation>
+                    <xsd:documentation>Name of the artefact on which to filter ( fieldname of the where-clause)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="FilterValue" type="apa:FilterValueType">
+                <xsd:annotation>
+                    <xsd:documentation>Value on which to filter the result( column="value": "value" of the where-clause)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

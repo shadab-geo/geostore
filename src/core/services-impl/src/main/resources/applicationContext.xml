@@ -28,5 +28,7 @@
     </bean>
     <bean id="userSessionService" class="it.geosolutions.geostore.services.InMemoryUserSessionServiceImpl">
     </bean>
-    
+
+    <context:component-scan base-package="it.geosolutions.geostore.soap"/>
+
 </beans>
