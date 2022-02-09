@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://wse.vlaanderen.be/generic/Fault/common/DataTypes/v100" targetNamespace="http://wse.vlaanderen.be/generic/Fault/common/DataTypes/v100" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xsd:simpleType name="CodeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="128"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="ShortDescriptionType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="128"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="DescriptionType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="1024"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="CategoryType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="128"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="FaultTypeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="B"/>
+            <xsd:enumeration value="T"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="StackTraceType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="2048"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="DebugDataType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="2048"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="InputDataType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="2048"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="Fault" type="FaultType"/>
+    <xsd:complexType name="ExceptionType">
+        <xsd:sequence>
+            <xsd:element name="code" type="CodeType">
+                <xsd:annotation>
+                    <xsd:documentation>Generic error code</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="desc" type="DescriptionType" minOccurs="0"/>
+            <xsd:element name="shortDesc" type="ShortDescriptionType"/>
+            <xsd:element name="category" type="CategoryType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Categorizes types of error (free text)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="type" type="FaultTypeType">
+                <xsd:annotation>
+                    <xsd:documentation>Type of error e.g Business or Technical</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="severity" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Severity code e.g L,M,H</xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="H"/>
+                        <xsd:enumeration value="M"/>
+                        <xsd:enumeration value="L"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="stackTrace" type="StackTraceType" minOccurs="0"/>
+            <xsd:element name="debugData" type="DebugDataType" minOccurs="0"/>
+            <xsd:element name="inputData" type="InputDataType" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="FaultType">
+        <xsd:sequence>
+            <xsd:element name="Exception" type="ExceptionType" nillable="true" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
